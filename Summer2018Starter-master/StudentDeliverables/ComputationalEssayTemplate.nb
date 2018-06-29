@@ -1,0 +1,1809 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 11.3' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       158,          7]
+NotebookDataLength[     71881,       1801]
+NotebookOptionsPosition[     51677,       1420]
+NotebookOutlinePosition[     65102,       1713]
+CellTagsIndexPosition[     65059,       1710]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+
+Cell[CellGroupData[{
+Cell["The RSA Algorithm ", "Title",
+ CellChangeTimes->{{3.700774153171832*^9, 3.700774159196458*^9}, {
+  3.716902403353675*^9, 3.716902404538095*^9}, {3.739170180192627*^9, 
+  3.7391701905878334`*^9}},ExpressionUUID->"755e0098-9782-4df5-8299-\
+7f54266c54d6"],
+
+Cell["A public-key cryptography algorithm", "Abstract",
+ CellChangeTimes->{{3.700774172671139*^9, 3.700774220850109*^9}, {
+   3.700778895632181*^9, 3.700778896308676*^9}, {3.716902409622859*^9, 
+   3.7169024154226503`*^9}, 3.7354828213821573`*^9, {3.73548464781948*^9, 
+   3.735484648712131*^9}, {3.735587270504136*^9, 3.735587272381384*^9}, {
+   3.739271949569774*^9, 3.739271965606408*^9}, {3.7392942539687243`*^9, 
+   3.7392942594465055`*^9}},ExpressionUUID->"db4efd27-b72d-4835-a486-\
+b18956bba0cb"],
+
+Cell["Anjali Raj, Jun. 29,  2018", "AuthorInfo",
+ CellChangeTimes->{{3.7360942820567207`*^9, 3.736094285334813*^9}, {
+  3.736098860672957*^9, 3.7360988944763517`*^9}, {3.7360990983398457`*^9, 
+  3.736099107824772*^9}, {3.736099251923992*^9, 3.7360993016054573`*^9}, {
+  3.7368685297868023`*^9, 3.736868530751481*^9}, {3.736868726576907*^9, 
+  3.7368687285334053`*^9}, {3.7368690514137907`*^9, 3.736869059546919*^9}, {
+  3.736869099634509*^9, 3.73686915397053*^9}, {3.7391701977176847`*^9, 
+  3.7391702037216444`*^9}, {3.739290124806488*^9, 
+  3.7392901260422297`*^9}},ExpressionUUID->"59a63784-4e95-46b9-9a1d-\
+2c013f47161b"],
+
+Cell["", "Text",ExpressionUUID->"85271f44-5b04-421c-bf31-0395fab10c35"],
+
+Cell[TextData[StyleBox["The RSA encryption is a well-known public-key \
+cryptography algorithm where a server X can send data or information to \
+another server Y in a way such that any unauthorized access is prevented.By \
+enabling two parties communicating over an insecure network to establish a \
+private piece of information, public-key cryptography simplifies the problem \
+of key distribution.  RSA algorithm uses a public key and a private key for \
+encryption and decryption of the data. The basis of the security of the RSA \
+algorithm is that it is mathematically infeasible to factor sufficiently \
+large integers. The RSA algorithm is believed to be secure if its keys have a \
+length of at least 1024-bits. ",
+ FontSize->16]], "Text",
+ CellChangeTimes->{{3.700774312865305*^9, 3.700774350341485*^9}, 
+   3.716902427754265*^9, 3.7354828504054613`*^9, {3.735483653472313*^9, 
+   3.735483683917967*^9}, {3.7354849519274273`*^9, 3.735484958639419*^9}, {
+   3.7355873998710403`*^9, 3.73558761257386*^9}, {3.736099062603284*^9, 
+   3.736099062938388*^9}, 3.738588402126446*^9, {3.738588473865753*^9, 
+   3.738588479696198*^9}, {3.738588515044569*^9, 3.738588515882841*^9}, {
+   3.739170248933487*^9, 3.739170248933487*^9}, {3.7391705892302647`*^9, 
+   3.7391706454123735`*^9}, {3.739170706835867*^9, 3.7391707309791794`*^9}, {
+   3.7391708234647136`*^9, 3.739170849815284*^9}, {3.739170914474393*^9, 
+   3.739170956728367*^9}, {3.739171017564289*^9, 3.7391710650070505`*^9}, {
+   3.7391710987573605`*^9, 3.7391711354020586`*^9}, {3.7391712959634137`*^9, 
+   3.7391713021356335`*^9}, {3.7392372541629467`*^9, 
+   3.7392372564545913`*^9}, {3.739268788633354*^9, 
+   3.739268819273994*^9}},ExpressionUUID->"c4fcdb31-5320-4f66-a18c-\
+701e8067fe16"],
+
+Cell[CellGroupData[{
+
+Cell[TextData[StyleBox["Key Generation",
+ FontVariations->{"Underline"->True}]], "Section",
+ CellChangeTimes->{
+  3.716825484342502*^9, {3.735483919282419*^9, 3.735483930584803*^9}, {
+   3.735486467547221*^9, 3.7354864678234043`*^9}, {3.7355877724233932`*^9, 
+   3.73558779245604*^9}, {3.73609433900439*^9, 3.736094368339192*^9}, 
+   3.7360944021880836`*^9, {3.7392263444549694`*^9, 3.739226364329361*^9}, {
+   3.739275166382875*^9, 
+   3.7392751735776777`*^9}},ExpressionUUID->"69c2789e-757d-42de-8e7a-\
+aa67a7c35b9d"],
+
+Cell[TextData[{
+ StyleBox["If M is the text to be encrypted and C is the cipher text, then \
+the following congruences are satisfied\[LineSeparator]\t\t",
+  FontSize->16,
+  FontColor->GrayLevel[0]],
+ StyleBox["C \[Congruent] E(M) \[Congruent]  ", "Code",
+  FontSize->16,
+  FontWeight->"Bold",
+  FontColor->GrayLevel[0]],
+ StyleBox[Cell[BoxData[
+  SuperscriptBox["M", "e"]], "Code",
+  CellChangeTimes->{{3.739224479300432*^9, 3.739224493554137*^9}, {
+   3.7392245488044777`*^9, 3.7392245882572985`*^9}, {3.739224655970358*^9, 
+   3.739224656861301*^9}, {3.7392246877306714`*^9, 3.739224696944826*^9}, {
+   3.739224983275713*^9, 3.7392250092757044`*^9}},
+  FontWeight->"Bold",
+  FontColor->GrayLevel[0],
+  Background->GrayLevel[1],ExpressionUUID->
+  "2bfe68b9-c83f-4aff-bcfa-79f6c3bb85ec"], "Code"],
+ StyleBox[" (mod n)\[LineSeparator]\t\tM", "Code",
+  FontWeight->"Bold",
+  FontColor->GrayLevel[0]],
+ StyleBox[" \[Congruent] D(C) \[Congruent]  ", "Code",
+  FontSize->16,
+  FontWeight->"Bold",
+  FontColor->GrayLevel[0]],
+ StyleBox[Cell[BoxData[
+  SuperscriptBox["C", "d"]], "Code",
+  CellChangeTimes->{{3.739224479300432*^9, 3.739224493554137*^9}, {
+   3.7392245488044777`*^9, 3.7392245882572985`*^9}, {3.739224655970358*^9, 
+   3.739224656861301*^9}, {3.7392246877306714`*^9, 3.739224696944826*^9}, {
+   3.739224983275713*^9, 3.7392250092757044`*^9}},
+  FontWeight->"Bold",
+  FontColor->GrayLevel[0],
+  Background->GrayLevel[1],ExpressionUUID->
+  "da87f14b-b2da-4f93-a23c-12d1b2ecc257"], "Code"],
+ StyleBox[" (mod n)", "Code",
+  FontWeight->"Bold",
+  FontColor->GrayLevel[0]]
+}], "CodeText",
+ CellChangeTimes->{{3.7392720211353474`*^9, 3.739272038442384*^9}, {
+   3.739272226985773*^9, 3.739272324869692*^9}, {3.7392724042907915`*^9, 
+   3.7392724131293817`*^9}, {3.7392724472522893`*^9, 
+   3.7392725573510585`*^9}, {3.7392732025922318`*^9, 3.7392732285616474`*^9}, 
+   3.7392764282284594`*^9, {3.7392867921991825`*^9, 
+   3.73928681688962*^9}},ExpressionUUID->"66e96941-cbfd-4190-a916-\
+60ed078a9d41"],
+
+Cell["", "Text",ExpressionUUID->"edec28ab-c9d9-40c8-b998-23846a080dda"],
+
+Cell[TextData[{
+ StyleBox["-\t", "Subsubsection",
+  FontSize->24,
+  FontColor->GrayLevel[0]],
+ StyleBox["Public key generation", "Subsubsection",
+  FontSize->24,
+  FontVariations->{"Underline"->True},
+  FontColor->GrayLevel[0]]
+}], "Text",
+ CellChangeTimes->{{3.739273774132834*^9, 3.7392737995934887`*^9}, 
+   3.7392738554364815`*^9, {3.739290211710709*^9, 3.7392902144632463`*^9}, {
+   3.7392939965127735`*^9, 3.739294015391324*^9}, {3.7392942201787515`*^9, 
+   3.7392942202284527`*^9}},ExpressionUUID->"ad918a5c-f248-4137-a750-\
+f1076ed9c199"],
+
+Cell[TextData[StyleBox["Let\[CloseCurlyQuote]s take two large random prime \
+numbers p and q and n = p.q:",
+ FontSize->16,
+ FontColor->GrayLevel[0.5]]], "CodeText",
+ CellChangeTimes->{{3.7354837283947477`*^9, 3.735483762505471*^9}, 
+   3.7354839554661007`*^9, {3.735588048797143*^9, 3.735588078242901*^9}, 
+   3.736092055787822*^9, {3.739235088301279*^9, 3.7392351829455824`*^9}, 
+   3.739275106059931*^9, {3.739293770874854*^9, 3.7392937731123023`*^9}, {
+   3.739294105004362*^9, 3.739294142637077*^9}, 
+   3.7392955054397683`*^9},ExpressionUUID->"7a9ac988-03a4-4c18-9dca-\
+ea7cdc6e168b"],
+
+Cell[BoxData[
+ StyleBox[
+  RowBox[{
+   RowBox[{"{", 
+    RowBox[{"p", ",", " ", "q"}], "}"}], " ", "=", " ", 
+   RowBox[{"RandomPrime", "[", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"2", "^", "639"}], ",", " ", 
+       RowBox[{"2", "^", "640"}]}], "}"}], ",", " ", "2"}], "]"}]}],
+  FontSize->14]], "Input",
+ CellChangeTimes->{{3.7392756919473376`*^9, 3.739275717645549*^9}, {
+  3.739276090330288*^9, 3.7392761379462852`*^9}},
+ CellLabel->
+  "In[302]:=",ExpressionUUID->"ecad34cb-567a-4d50-b342-e8359aef898c"],
+
+Cell[BoxData[
+ StyleBox[
+  RowBox[{"n", " ", "=", " ", 
+   RowBox[{"p", " ", "q"}]}],
+  FontSize->14]], "Input",
+ CellChangeTimes->{{3.7392756919473376`*^9, 3.739275717645549*^9}, {
+  3.739276090330288*^9, 3.7392761592777205`*^9}},
+ CellLabel->
+  "In[303]:=",ExpressionUUID->"a1e4afc3-045a-42d8-a607-7539976ee1bd"],
+
+Cell[TextData[{
+ StyleBox["Theorem", "Text",
+  FontSize->16,
+  FontVariations->{"Underline"->True},
+  FontColor->GrayLevel[0]],
+ StyleBox[" : If m1 and m2 denote two positive relatively prime integers then \
+", "Text",
+  FontSize->16,
+  FontColor->GrayLevel[0]],
+ "\n\t\t",
+ StyleBox["\[Phi] (m1.m2)  =  \[Phi] (m1).\[Phi] (m2)", "Code",
+  FontSize->16,
+  FontColor->GrayLevel[0]]
+}], "CodeText",
+ CellChangeTimes->{{3.7392229364686584`*^9, 3.7392229427774544`*^9}, {
+  3.7392230620389366`*^9, 3.7392232235686717`*^9}, {3.739223287939232*^9, 
+  3.739223311431167*^9}, {3.7392694476947765`*^9, 3.739269449442834*^9}, {
+  3.739271079150425*^9, 3.7392710796697474`*^9}, {3.7392759491045685`*^9, 
+  3.739275950645629*^9}},ExpressionUUID->"b04d2ecd-425d-4379-82ff-\
+8cc9d961b49b"],
+
+Cell[TextData[StyleBox["\[Therefore]\t        \[Phi] (n) = \[Phi] (p.q) = \
+\[Phi] (p).\[Phi] (q) = (p - 1).(q - 1)",
+ FontSize->16,
+ FontWeight->"Bold",
+ FontColor->GrayLevel[0]]], "CodeText",
+ CellChangeTimes->{{3.739223621384368*^9, 3.7392236546950445`*^9}, {
+   3.7392237015068336`*^9, 3.739223798301983*^9}, 3.739238988258526*^9, {
+   3.739269074727109*^9, 3.739269089714116*^9}, {3.739269247029073*^9, 
+   3.739269257473596*^9}, {3.7392759268824186`*^9, 
+   3.7392759799263196`*^9}},ExpressionUUID->"0d5acc4f-42ea-4cdf-ad38-\
+c424bc878347"],
+
+Cell[TextData[StyleBox["Hence the totient function of product of two primes \
+can be computed easily which otherwise would have been much difficult:",
+ FontSize->16,
+ FontColor->GrayLevel[0.5]]], "CodeText",
+ CellChangeTimes->{{3.7354837283947477`*^9, 3.735483762505471*^9}, 
+   3.7354839554661007`*^9, {3.735588048797143*^9, 3.735588078242901*^9}, 
+   3.736092055787822*^9, {3.739235088301279*^9, 3.7392351829455824`*^9}, 
+   3.739275106059931*^9, {3.739293770874854*^9, 3.7392937731123023`*^9}, {
+   3.739294105004362*^9, 3.739294142637077*^9}, {3.7392949355041623`*^9, 
+   3.7392950563892765`*^9}, 
+   3.7392955089050817`*^9},ExpressionUUID->"fb1c667d-5204-4df9-9936-\
+abc834f29a28"],
+
+Cell[BoxData[
+ StyleBox[
+  RowBox[{"\[Phi]", " ", "=", " ", 
+   RowBox[{
+    RowBox[{"(", 
+     RowBox[{"p", "-", "1"}], ")"}], " ", 
+    RowBox[{"(", 
+     RowBox[{"q", "-", "1"}], ")"}]}]}],
+  FontSize->14]], "Input",
+ CellChangeTimes->{{3.7392756919473376`*^9, 3.739275717645549*^9}, {
+  3.739276090330288*^9, 3.7392761592777205`*^9}, {3.739276198185824*^9, 
+  3.7392762194492283`*^9}},
+ CellLabel->
+  "In[304]:=",ExpressionUUID->"eb8689ce-0a9e-45b1-b238-10a020118494"],
+
+Cell[TextData[StyleBox["Now we have to choose a value for e such that gcd (e, \
+\[Phi]) = 1:",
+ FontSize->16,
+ FontColor->GrayLevel[0.5]]], "CodeText",
+ CellChangeTimes->{{3.7392354552899857`*^9, 3.7392355149545436`*^9}, {
+   3.7392729782519503`*^9, 3.739272980691745*^9}, 
+   3.739295512755985*^9},ExpressionUUID->"db325f37-1b38-4829-804d-\
+78eafbcaa9cd"],
+
+Cell[BoxData[{
+ StyleBox[
+  RowBox[{
+   RowBox[{
+    RowBox[{"e", " ", "=", " ", 
+     RowBox[{"RandomInteger", "[", "\[Phi]", "]"}]}], ";"}], " "}],
+  FontSize->14,
+  FontColor->GrayLevel[0]], "\[IndentingNewLine]", 
+ StyleBox[
+  RowBox[{
+   RowBox[{"While", "[", 
+    RowBox[{
+     RowBox[{
+      RowBox[{"GCD", "[", 
+       RowBox[{"\[Phi]", ",", " ", "e"}], "]"}], " ", "\[NotEqual]", " ", 
+      "1"}], ",", " ", 
+     RowBox[{"e", " ", "=", " ", 
+      RowBox[{"RandomInteger", "[", "\[Phi]", " ", "]"}]}]}], "]"}], ";"}],
+  FontSize->14,
+  FontColor->GrayLevel[0]], "\[IndentingNewLine]", 
+ StyleBox["e",
+  FontSize->14,
+  FontColor->GrayLevel[0]]}], "Input",
+ CellChangeTimes->{{3.7392756919473376`*^9, 3.739275717645549*^9}, {
+   3.739276090330288*^9, 3.7392761592777205`*^9}, {3.739276198185824*^9, 
+   3.7392762194492283`*^9}, 3.739276350724428*^9},
+ CellLabel->
+  "In[305]:=",ExpressionUUID->"e2d89190-4fb5-4f14-b7db-a96bbf49e8ca"],
+
+Cell[TextData[StyleBox["The public key for the cryptosystem is (n, e)",
+ FontSize->16,
+ FontColor->GrayLevel[0]]], "CodeText",
+ CellChangeTimes->{{3.739235724530734*^9, 3.739235794527014*^9}, {
+   3.7392358916063614`*^9, 3.739235891608344*^9}, 3.739273030961231*^9, 
+   3.7392752734234886`*^9, 3.7392869346205997`*^9, 
+   3.7392948567468166`*^9},ExpressionUUID->"72347966-0e48-4b03-b798-\
+d69ca0cdb54f"],
+
+Cell["", "Text",ExpressionUUID->"32d55865-4aba-4197-8f33-2dd45306f5f6"],
+
+Cell[TextData[{
+ StyleBox["-\t", "Subsubsection",
+  FontSize->24,
+  FontColor->GrayLevel[0]],
+ StyleBox["Private key generation", "Subsubsection",
+  FontSize->24,
+  FontVariations->{"Underline"->True},
+  FontColor->GrayLevel[0]]
+}], "Text",
+ CellChangeTimes->{{3.739273774132834*^9, 3.7392737995934887`*^9}, 
+   3.7392738554364815`*^9, {3.7392940237170672`*^9, 
+   3.7392940268338013`*^9}},ExpressionUUID->"a8299778-2b40-4179-9f8d-\
+2e20537b382e"],
+
+Cell[TextData[{
+ StyleBox["For the private key, we have to choose a value for d such that", 
+  "CodeText",
+  FontSize->16,
+  FontColor->GrayLevel[0]],
+ StyleBox["\[LineSeparator]",
+  FontSize->16,
+  FontColor->GrayLevel[0]],
+ StyleBox["\t\te.d  \[Congruent] 1 (mod n)\[LineSeparator]\t\[Implies]\te.d  \
+=  k.\[Phi](n) + 1\t,  ", "Code",
+  FontSize->16,
+  FontColor->GrayLevel[0]],
+ StyleBox["where k is any integer",
+  FontSize->16,
+  FontColor->GrayLevel[0]]
+}], "CodeText",
+ CellChangeTimes->{{3.7392240381656747`*^9, 3.7392240502609434`*^9}, {
+   3.7392390197424393`*^9, 3.7392390828957367`*^9}, {3.739240050037424*^9, 
+   3.7392400503894625`*^9}, {3.7392725761273303`*^9, 3.7392727250681906`*^9}, 
+   3.7392727633188343`*^9, 
+   3.7392939212676086`*^9},ExpressionUUID->"a730e039-1310-4960-b5cd-\
+4be0a111ddc0"],
+
+Cell[TextData[StyleBox["The value of d can be calculated by finding the \
+modular inverse of e (mod n):",
+ FontSize->16,
+ FontColor->GrayLevel[0.5]]], "CodeText",
+ CellChangeTimes->{{3.7354837283947477`*^9, 3.735483762505471*^9}, 
+   3.7354839554661007`*^9, {3.735588048797143*^9, 3.735588078242901*^9}, 
+   3.736092055787822*^9, {3.739235088301279*^9, 3.7392351829455824`*^9}, 
+   3.739275106059931*^9, {3.739293770874854*^9, 3.7392937731123023`*^9}, {
+   3.739294105004362*^9, 3.739294142637077*^9}, {3.739295109328067*^9, 
+   3.7392952350071983`*^9}, 
+   3.739295516028013*^9},ExpressionUUID->"bb85dd23-8f51-4a1b-b0fd-\
+c455411b5028"],
+
+Cell[BoxData[
+ StyleBox[
+  RowBox[{"d", " ", "=", " ", 
+   RowBox[{"PowerMod", "[", 
+    RowBox[{"e", ",", " ", 
+     RowBox[{"-", "1"}], ",", " ", "\[Phi]"}], "]"}]}],
+  FontSize->14,
+  FontColor->GrayLevel[0]]], "Input",
+ CellChangeTimes->{{3.7392756919473376`*^9, 3.739275717645549*^9}, {
+   3.739276090330288*^9, 3.7392761592777205`*^9}, {3.739276198185824*^9, 
+   3.7392762194492283`*^9}, 3.739276350724428*^9, 3.739276452565511*^9},
+ CellLabel->
+  "In[308]:=",ExpressionUUID->"8d1af351-071b-4d61-81b7-ee7bd11ab4d2"],
+
+Cell[TextData[StyleBox["We now have the private key for the cryptosystem \
+which is (n, d)",
+ FontSize->16,
+ FontColor->GrayLevel[0]]], "Text",
+ CellChangeTimes->{{3.7392361187483006`*^9, 3.7392361595689044`*^9}, 
+   3.739275429684552*^9},ExpressionUUID->"2aa69d96-b50b-4062-9d71-\
+f1eb6143c707"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[TextData[{
+ StyleBox["Encryption", "Section",
+  FontVariations->{"Underline"->True}],
+ StyleBox[" ",
+  FontVariations->{"Underline"->True}]
+}], "Section",
+ CellChangeTimes->{3.716825484342502*^9, 
+  3.7392772932789946`*^9},ExpressionUUID->"b5a3caa7-ff58-440c-9749-\
+a3d7b0e03f43"],
+
+Cell[TextData[StyleBox["Lets say the message to be encrypted is text:",
+ FontSize->16,
+ FontColor->GrayLevel[0.5]]], "Text",
+ CellChangeTimes->{{3.7392367641685476`*^9, 3.7392368240712547`*^9}, 
+   3.739273966777948*^9, {3.739287032276461*^9, 3.739287064695063*^9}, {
+   3.7392955197536173`*^9, 
+   3.739295522970327*^9}},ExpressionUUID->"525802fc-82c5-4218-9930-\
+a19ccd9ba704"],
+
+Cell[BoxData[
+ StyleBox[
+  RowBox[{"text", " ", "=", " ", "\"\<Wolfram Summer School, 2018\>\""}],
+  FontSize->14,
+  FontColor->GrayLevel[0]]], "Input",
+ CellChangeTimes->{{3.7392756919473376`*^9, 3.739275717645549*^9}, {
+   3.739276090330288*^9, 3.7392761592777205`*^9}, {3.739276198185824*^9, 
+   3.7392762194492283`*^9}, 3.739276350724428*^9, 3.739276452565511*^9, 
+   3.7392765457819595`*^9},
+ CellLabel->
+  "In[309]:=",ExpressionUUID->"2e467152-035b-424e-a381-890192dcb650"],
+
+Cell[TextData[StyleBox["First the text has to be converted into its ASCII \
+equivalent code:", "CodeText",
+ FontSize->16]], "Text",
+ CellChangeTimes->{{3.739236834519077*^9, 3.739236957543507*^9}, 
+   3.739273373136013*^9, {3.7392871152875195`*^9, 3.7392871161882234`*^9}, 
+   3.739295526138198*^9},ExpressionUUID->"73b45b26-2416-48d3-84ef-\
+04d0abfbcb83"],
+
+Cell[BoxData[
+ StyleBox[
+  RowBox[{"acode", " ", "=", " ", 
+   RowBox[{"ToCharacterCode", "[", "text", "]"}]}],
+  FontSize->14,
+  FontColor->GrayLevel[0]]], "Input",
+ CellChangeTimes->{{3.7392756919473376`*^9, 3.739275717645549*^9}, {
+   3.739276090330288*^9, 3.7392761592777205`*^9}, {3.739276198185824*^9, 
+   3.7392762194492283`*^9}, 3.739276350724428*^9, 3.739276452565511*^9, 
+   3.7392765457819595`*^9, 3.739276577220815*^9},
+ CellLabel->
+  "In[310]:=",ExpressionUUID->"266049e5-c84f-4bad-b4a4-5ed4d4144287"],
+
+Cell[TextData[{
+ StyleBox["The list so obtained is the digits of a number f with the base of \
+a very large number say ", "CodeText",
+  FontSize->16],
+ StyleBox[Cell[BoxData[
+  FormBox[
+   SuperscriptBox["2", "17"], TraditionalForm]], "CodeText",
+  FormatType->"TraditionalForm",
+  FontSize->16,ExpressionUUID->"cf186a6b-48cb-49f0-bfdb-0290316091e2"], 
+  "CodeText"],
+ StyleBox[", then we first compute the number f and change it in the base n:",
+   "CodeText",
+  FontSize->16]
+}], "Text",
+ CellChangeTimes->{{3.7392370863972054`*^9, 3.73923721449535*^9}, 
+   3.739273958249172*^9, {3.739287129382898*^9, 3.7392871650185194`*^9}, {
+   3.7392955289310465`*^9, 
+   3.7392955294170732`*^9}},ExpressionUUID->"691420bd-6f3b-4c90-8634-\
+f2c541ac76dd"],
+
+Cell[BoxData[
+ StyleBox[
+  RowBox[{"f", " ", "=", " ", 
+   RowBox[{"Fold", "[", 
+    RowBox[{
+     RowBox[{
+      RowBox[{
+       RowBox[{"#1", " ", 
+        RowBox[{"2", "^", "17"}]}], " ", "+", " ", "#2"}], " ", "&"}], ",", 
+     " ", "0", ",", " ", "tcc"}], "]"}]}],
+  FontSize->14,
+  FontColor->GrayLevel[0]]], "Input",
+ CellChangeTimes->{{3.7392756919473376`*^9, 3.739275717645549*^9}, {
+   3.739276090330288*^9, 3.7392761592777205`*^9}, {3.739276198185824*^9, 
+   3.7392762194492283`*^9}, 3.739276350724428*^9, 3.739276452565511*^9, 
+   3.7392765457819595`*^9, 3.739276577220815*^9, 3.7392766082707076`*^9},
+ CellLabel->
+  "In[311]:=",ExpressionUUID->"e500a892-ece9-412e-ba0e-e8633bb0e956"],
+
+Cell[BoxData[
+ StyleBox[
+  RowBox[{"id", " ", "=", " ", 
+   RowBox[{"IntegerDigits", "[", 
+    RowBox[{"f", ",", " ", "n"}], "]"}], " "}],
+  FontSize->14,
+  FontColor->GrayLevel[0]]], "Input",
+ CellChangeTimes->{{3.7392756919473376`*^9, 3.739275717645549*^9}, {
+   3.739276090330288*^9, 3.7392761592777205`*^9}, {3.739276198185824*^9, 
+   3.7392762194492283`*^9}, 3.739276350724428*^9, 3.739276452565511*^9, 
+   3.7392765457819595`*^9, 3.739276577220815*^9, 3.7392766190923405`*^9},
+ CellLabel->
+  "In[312]:=",ExpressionUUID->"21bcb6ed-f342-498c-ac89-ba0e7b864bc9"],
+
+Cell[TextData[StyleBox["To obtain the encrypted message, perform the modular \
+exponentiation on the previous output:", "CodeText",
+ FontSize->16]], "Text",
+ CellChangeTimes->{{3.739237337160922*^9, 3.7392373541520457`*^9}, {
+   3.7392374134494505`*^9, 3.7392375102114925`*^9}, {3.7392739603165874`*^9, 
+   3.7392739646673117`*^9}, {3.7392871861553483`*^9, 3.73928720868384*^9}, 
+   3.7392955326441813`*^9},ExpressionUUID->"94c662e9-6061-42c5-991f-\
+89040141599d"],
+
+Cell[BoxData[
+ StyleBox[
+  RowBox[{"eText", " ", "=", " ", 
+   RowBox[{"PowerMod", "[", 
+    RowBox[{"id", ",", " ", "e", ",", " ", "n"}], "]"}], " "}],
+  FontSize->14,
+  FontColor->GrayLevel[0]]], "Input",
+ CellChangeTimes->{{3.7392756919473376`*^9, 3.739275717645549*^9}, {
+   3.739276090330288*^9, 3.7392761592777205`*^9}, {3.739276198185824*^9, 
+   3.7392762194492283`*^9}, 3.739276350724428*^9, 3.739276452565511*^9, 
+   3.7392765457819595`*^9, 3.739276577220815*^9, 3.7392766082707076`*^9, 
+   3.7392766492067857`*^9},
+ CellLabel->
+  "In[313]:=",ExpressionUUID->"f720b1c1-1a72-4a1a-ab3d-6adcf965b29c"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[TextData[StyleBox["Decryption",
+ FontVariations->{"Underline"->True}]], "Section",
+ CellChangeTimes->{
+  3.716825484342502*^9, {3.735483919282419*^9, 3.735483930584803*^9}, {
+   3.735486467547221*^9, 3.7354864678234043`*^9}, {3.7355877724233932`*^9, 
+   3.73558779245604*^9}, {3.73609433900439*^9, 3.736094368339192*^9}, 
+   3.7360944021880836`*^9, {3.7392263444549694`*^9, 3.739226364329361*^9}, {
+   3.7392747357132134`*^9, 
+   3.739274745761675*^9}},ExpressionUUID->"36fd93b8-b976-48f1-bd76-\
+d256196758c9"],
+
+Cell[TextData[StyleBox["Lets now try to decrypt the cipher text:", "CodeText",
+ FontSize->16]], "Text",
+ CellChangeTimes->{{3.7392376659597874`*^9, 3.7392377220919294`*^9}, {
+   3.7392756544063454`*^9, 3.739275655276057*^9}, {3.739287229066518*^9, 
+   3.7392872485524054`*^9}, 
+   3.739295536604278*^9},ExpressionUUID->"3bb3e481-1f1a-4353-a7dd-\
+8cc87843d9b3"],
+
+Cell[BoxData[
+ StyleBox[
+  RowBox[{"cText", " ", "=", " ", "%"}],
+  FontSize->14]], "Input",
+ CellChangeTimes->{{3.7392756919473376`*^9, 3.739275717645549*^9}},
+ CellLabel->
+  "In[314]:=",ExpressionUUID->"69d85133-65ce-42d7-9dd5-ed711a8a1208"],
+
+Cell["\<\
+To decrypt this, modular exponentiation is performed using the private key:\
+\>", "CodeText",
+ CellChangeTimes->{{3.7392377897636504`*^9, 3.7392378240331383`*^9}, {
+   3.7392756632791677`*^9, 3.739275663655918*^9}, {3.7392872677243285`*^9, 
+   3.7392872867087164`*^9}, 3.7392955389084377`*^9},
+ FontSize->16,ExpressionUUID->"f062931a-e01c-45e7-8a42-a8f1a619be48"],
+
+Cell[BoxData[
+ StyleBox[
+  RowBox[{"pm", " ", "=", " ", 
+   RowBox[{"PowerMod", "[", 
+    RowBox[{"cText", ",", " ", "d", ",", " ", "n"}], "]"}]}],
+  FontSize->14]], "Input",
+ CellChangeTimes->{{3.7392756919473376`*^9, 3.739275717645549*^9}, 
+   3.73927670104035*^9},
+ CellLabel->
+  "In[315]:=",ExpressionUUID->"5a84c778-f143-4e7d-8559-5398f3963ac4"],
+
+Cell[TextData[{
+ StyleBox["Now the number so obtained is converted from the base n to ", 
+  "CodeText",
+  FontSize->16],
+ StyleBox[Cell[BoxData[
+  FormBox[
+   SuperscriptBox["2", "17"], TraditionalForm]], "CodeText",
+  FormatType->"TraditionalForm",
+  FontSize->16,ExpressionUUID->"c1796e2d-e2a6-4306-b95c-63ab73d188ec"], 
+  "CodeText"],
+ StyleBox[":", "CodeText"]
+}], "Text",
+ CellChangeTimes->{{3.739237869944438*^9, 3.739237908819189*^9}, {
+   3.7392379487849603`*^9, 3.739237989954343*^9}, {3.7392380591026015`*^9, 
+   3.739238097731021*^9}, 3.739275665516446*^9, {3.73929554137744*^9, 
+   3.7392955434639854`*^9}},ExpressionUUID->"030776b6-2e41-4945-83c1-\
+949a43716576"],
+
+Cell[BoxData[
+ StyleBox[
+  RowBox[{"ft", " ", "=", " ", 
+   RowBox[{"Fold", "[", 
+    RowBox[{
+     RowBox[{
+      RowBox[{
+       RowBox[{"#1", " ", "n"}], " ", "+", " ", "#2"}], "&"}], ",", " ", "0", 
+     ",", " ", "pm"}], "]"}]}],
+  FontSize->14]], "Input",
+ CellChangeTimes->{{3.7392756919473376`*^9, 3.739275717645549*^9}, 
+   3.7392767580089703`*^9},
+ CellLabel->
+  "In[316]:=",ExpressionUUID->"3600db75-b18b-43d2-ba08-3493af805d27"],
+
+Cell[BoxData[
+ StyleBox[
+  RowBox[{"i", " ", "=", " ", 
+   RowBox[{"IntegerDigits", "[", 
+    RowBox[{"ft", ",", " ", 
+     RowBox[{"2", "^", "17"}]}], "]"}]}],
+  FontSize->14]], "Input",
+ CellChangeTimes->{{3.7392756919473376`*^9, 3.739275717645549*^9}, 
+   3.7392768717152123`*^9},
+ CellLabel->
+  "In[317]:=",ExpressionUUID->"c4c0517e-bffd-48ee-bc79-9a0b825c33bf"],
+
+Cell[TextData[StyleBox["So at this point we have the ASCII code equivalent of \
+the original text:", "CodeText",
+ FontSize->16]], "Text",
+ CellChangeTimes->{{3.739238160587537*^9, 3.739238259159029*^9}, 
+   3.7392756675100703`*^9, 
+   3.7392955463908496`*^9},ExpressionUUID->"babf1c64-3bb4-42ed-b545-\
+e549260acb40"],
+
+Cell[BoxData[
+ StyleBox[
+  RowBox[{"FromCharacterCode", "[", "i", "]"}],
+  FontSize->14]], "Input",
+ CellChangeTimes->{{3.7392756919473376`*^9, 3.739275717645549*^9}, 
+   3.7392768717152123`*^9, 3.7392769022454925`*^9},
+ CellLabel->
+  "In[318]:=",ExpressionUUID->"78be44c5-3ef7-41a1-b63a-6bfcc418a2fc"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Proof of correctness using Euler\[CloseCurlyQuote]s theorem", "Section",
+ CellChangeTimes->{
+  3.716825484342502*^9, {3.7392397571134768`*^9, 
+   3.739239774378237*^9}},ExpressionUUID->"ed65a640-9e23-4cfb-97e5-\
+2b2050c4800b"],
+
+Cell[TextData[{
+ StyleBox["If M is the message to be encrypted, E is the encrypted text, (e, \
+n) is the public key and (d, n) is the private key, then\[LineSeparator]", 
+  "CodeText",
+  FontSize->16,
+  FontColor->GrayLevel[0]],
+ StyleBox["\t",
+  FontSize->16,
+  FontColor->GrayLevel[0]],
+ StyleBox["\t", "Code",
+  FontSize->16,
+  FontColor->GrayLevel[0]],
+ StyleBox[Cell[BoxData[{
+  StyleBox[
+   RowBox[{"E", "  ", "\[Congruent]", "  ", 
+    RowBox[{
+     SuperscriptBox["M", "e"], 
+     RowBox[{"(", 
+      RowBox[{"mod", " ", "n"}], ")"}]}]}], "Text"], "\n", 
+  StyleBox[
+   RowBox[{"M", "  ", "\[Congruent]", "  ", 
+    RowBox[{
+     SuperscriptBox["E", "d"], 
+     RowBox[{"(", 
+      RowBox[{"mod", " ", "n"}], ")"}]}]}], "Text"]}], "Code",
+  CellChangeTimes->{{3.739224479300432*^9, 3.739224493554137*^9}, {
+   3.7392245488044777`*^9, 3.7392245882572985`*^9}, {3.739224655970358*^9, 
+   3.739224656861301*^9}, {3.7392246877306714`*^9, 3.739224696944826*^9}, {
+   3.739224983275713*^9, 3.7392250092757044`*^9}},
+  FontSize->16,
+  FontColor->GrayLevel[0],
+  Background->GrayLevel[1],ExpressionUUID->
+  "1a27bf64-c352-457d-80b9-c3ab4030a1f6"], "Code"]
+}], "Text",
+ CellChangeTimes->{{3.7392243593223476`*^9, 3.7392244707845635`*^9}, 
+   3.7392246726882176`*^9, {3.739224962612468*^9, 3.7392249708717937`*^9}, {
+   3.7392398331694975`*^9, 3.7392398437794886`*^9}, {3.739270733831*^9, 
+   3.739270742022787*^9}, {3.7392707738288164`*^9, 3.739270786033495*^9}, {
+   3.739270835096516*^9, 3.739270845224086*^9}, {3.739284310796301*^9, 
+   3.7392843143293853`*^9}, {3.7392843687479315`*^9, 
+   3.7392843883228245`*^9}, {3.7392873747886686`*^9, 3.7392873797278624`*^9}},
+ FontSize->16,ExpressionUUID->"376671b6-9dc9-4a11-b41c-e0ebf810b9a1"],
+
+Cell[TextData[{
+ StyleBox["Hence from the above two equations, we have",
+  FontSize->16,
+  FontColor->GrayLevel[0]],
+ StyleBox["\[LineSeparator]",
+  FontSize->16],
+ Cell[BoxData[
+  StyleBox[
+   RowBox[{"\t\t", 
+    RowBox[{
+     SuperscriptBox["E", "d"], "  ", "\[Congruent]", "  ", 
+     SuperscriptBox["M", 
+      RowBox[{"e", ".", "d"}]], " ", "\[Congruent]", "  ", 
+     RowBox[{
+      SuperscriptBox["M", 
+       RowBox[{
+        RowBox[{
+         RowBox[{"k", ".", "\[Phi]"}], 
+         RowBox[{"(", "n", ")"}]}], "+", "1"}]], " ", 
+      RowBox[{"(", 
+       RowBox[{"mod", " ", "n"}], ")"}]}]}]}], "Text"]], "Code",
+  CellChangeTimes->{{3.739225143780422*^9, 3.7392251969014587`*^9}},
+  FontSize->72,
+  FontColor->GrayLevel[0],
+  Background->GrayLevel[1],ExpressionUUID->
+  "1ebd636a-8f4d-41a8-929e-d7ed146c1557"]
+}], "CodeText",
+ CellChangeTimes->{{3.739225052591694*^9, 3.739225120603573*^9}, 
+   3.7392253567984915`*^9, {3.7392394456219225`*^9, 3.739239467060254*^9}, {
+   3.739270881115487*^9, 3.739270882255232*^9}, {3.7392709501494303`*^9, 
+   3.739270953141429*^9}, {3.73927110316765*^9, 3.7392711107421904`*^9}, {
+   3.7392842753059454`*^9, 
+   3.7392842804399166`*^9}},ExpressionUUID->"69503298-1e5f-49ad-93e8-\
+ccf3c13989b5"],
+
+Cell[BoxData[{
+ RowBox[{
+  StyleBox[
+   RowBox[{
+    StyleBox["Theorem", "Text",
+     FontVariations->{"Underline"->True},
+     FontColor->GrayLevel[0]], 
+    StyleBox[
+     StyleBox[" ", "Text"], "CodeText",
+     FontColor->GrayLevel[0]], 
+    StyleBox[
+     StyleBox[":", "Text"], "CodeText"], 
+    StyleBox[
+     StyleBox[" ", "Text"], "CodeText"], 
+    StyleBox[
+     RowBox[{
+      StyleBox[
+       StyleBox[
+        StyleBox["(", "Text"], "Text",
+        FontSize->24,
+        FontColor->GrayLevel[0]], "Text",
+       FontWeight->"Plain",
+       FontColor->GrayLevel[0]], 
+      RowBox[{
+       RowBox[{
+        StyleBox[
+         StyleBox[
+          StyleBox["Euler", "Text"], "Text",
+          FontSize->24,
+          FontColor->GrayLevel[0]], "Text",
+         FontWeight->"Plain",
+         FontColor->GrayLevel[0]], 
+        StyleBox[
+         StyleBox[
+          StyleBox["'", "Text"], "Text",
+          FontSize->24,
+          FontColor->GrayLevel[0]], "Text",
+         FontWeight->"Plain",
+         FontColor->GrayLevel[0]]}], 
+       StyleBox[
+        StyleBox[
+         StyleBox["s", "Text"], "Text",
+         FontSize->24,
+         FontColor->GrayLevel[0]], "Text",
+        FontWeight->"Plain",
+        FontColor->GrayLevel[0]], 
+       StyleBox[" ", "Text",
+        FontWeight->"Plain",
+        FontColor->GrayLevel[0]], 
+       StyleBox[
+        StyleBox[
+         StyleBox["generalization", "Text"], "Text",
+         FontSize->24,
+         FontColor->GrayLevel[0]], "Text",
+        FontWeight->"Plain",
+        FontColor->GrayLevel[0]], 
+       StyleBox[" ", "Text",
+        FontWeight->"Plain",
+        FontColor->GrayLevel[0]], 
+       StyleBox[
+        StyleBox[
+         StyleBox["of", "Text"], "Text",
+         FontSize->24,
+         FontColor->GrayLevel[0]], "Text",
+        FontWeight->"Plain",
+        FontColor->GrayLevel[0]], 
+       StyleBox[" ", "Text",
+        FontWeight->"Plain",
+        FontColor->GrayLevel[0]], 
+       StyleBox[
+        StyleBox[
+         StyleBox[
+          RowBox[{"Fermat", "'"}], "Text"], "Text",
+         FontSize->24,
+         FontColor->GrayLevel[0]], "Text",
+        FontWeight->"Plain",
+        FontColor->GrayLevel[0]], 
+       StyleBox[
+        StyleBox[
+         StyleBox["s", "Text"], "Text",
+         FontSize->24,
+         FontColor->GrayLevel[0]], "Text",
+        FontWeight->"Plain",
+        FontColor->GrayLevel[0]], 
+       StyleBox[" ", "Text",
+        FontWeight->"Plain",
+        FontColor->GrayLevel[0]], 
+       StyleBox[
+        StyleBox[
+         StyleBox["Theorem", "Text"], "Text",
+         FontSize->24,
+         FontColor->GrayLevel[0]], "Text",
+        FontWeight->"Plain",
+        FontColor->GrayLevel[0]]}], 
+      StyleBox[
+       StyleBox[
+        StyleBox[")", "Text"], "Text",
+        FontSize->24,
+        FontColor->GrayLevel[0]], "Text",
+       FontWeight->"Plain",
+       FontColor->GrayLevel[0]]}], "CodeText",
+     FontWeight->"Bold"]}],
+   FontSize->16], 
+  StyleBox[
+   StyleBox[" ", "Text"], "CodeText",
+   FontSize->16]}], "\[IndentingNewLine]", 
+ RowBox[{
+  StyleBox[
+   StyleBox[
+    RowBox[{"\t", 
+     StyleBox["\t",
+      FontSize->16]}]], "Text",
+   FontColor->GrayLevel[0]], 
+  StyleBox[
+   RowBox[{
+    RowBox[{
+     RowBox[{
+      StyleBox["If", "Text",
+       FontColor->GrayLevel[0]], 
+      StyleBox[" ", "Text",
+       FontColor->GrayLevel[0]], 
+      StyleBox[
+       StyleBox[
+        RowBox[{"gcd", 
+         RowBox[{"(", 
+          RowBox[{
+           StyleBox[
+            StyleBox["a", "Text",
+             FontColor->GrayLevel[0]], "Text",
+            FontColor->GrayLevel[0]], 
+           StyleBox[
+            StyleBox[
+             StyleBox[",", "Text",
+              FontColor->GrayLevel[0]], "Text",
+             FontColor->GrayLevel[0]], "Text",
+            FontColor->GrayLevel[0]], 
+           StyleBox[
+            StyleBox[
+             StyleBox[" ", "Text",
+              FontColor->GrayLevel[0]], "Text",
+             FontColor->GrayLevel[0]], "Text",
+            FontColor->GrayLevel[0]], 
+           StyleBox[
+            StyleBox[
+             StyleBox["m", "Text",
+              FontColor->GrayLevel[0]], "Text",
+             FontColor->GrayLevel[0]], "Text",
+            FontColor->GrayLevel[0]]}], 
+          StyleBox[
+           StyleBox[")", "Text",
+            FontColor->GrayLevel[0]], "Text",
+           FontColor->GrayLevel[0]]}]}], "Text",
+        FontWeight->"Bold",
+        FontColor->GrayLevel[0]], "Text",
+       FontColor->GrayLevel[0]]}], 
+     StyleBox[
+      StyleBox[
+       StyleBox[" ", "Text",
+        FontWeight->"Bold"], "Text",
+       FontColor->GrayLevel[0]], "Text",
+      FontColor->GrayLevel[0]], 
+     StyleBox[
+      StyleBox[
+       StyleBox["=", "Text",
+        FontWeight->"Bold"], "Text",
+       FontColor->GrayLevel[0]], "Text",
+      FontColor->GrayLevel[0]], 
+     StyleBox[
+      StyleBox[
+       StyleBox[
+        StyleBox[
+         StyleBox[" ", "Text",
+          FontColor->GrayLevel[0]], "Text",
+         FontColor->GrayLevel[0]], "Text",
+        FontWeight->"Bold"], "Text",
+       FontColor->GrayLevel[0]], "Text",
+      FontColor->GrayLevel[0]], 
+     StyleBox[
+      StyleBox[
+       StyleBox[
+        StyleBox[
+         StyleBox["1", "Text",
+          FontColor->GrayLevel[0]], "Text",
+         FontColor->GrayLevel[0]], "Text",
+        FontWeight->"Bold"], "Text",
+       FontColor->GrayLevel[0]], "Text",
+      FontColor->GrayLevel[0]]}], 
+    StyleBox[
+     StyleBox[",", "Text",
+      FontColor->GrayLevel[0]], "Text",
+     FontColor->GrayLevel[0]], 
+    StyleBox[
+     StyleBox[
+      StyleBox[" ", "Text",
+       FontColor->GrayLevel[0]], "Text",
+      FontColor->GrayLevel[0]], "Text",
+     FontColor->GrayLevel[0]], 
+    RowBox[{
+     StyleBox[
+      RowBox[{
+       StyleBox[
+        StyleBox[
+         StyleBox["t", "Text",
+          FontColor->GrayLevel[0]], "Text",
+         FontColor->GrayLevel[0]], "Text",
+        FontColor->GrayLevel[0]], 
+       StyleBox["hen", "Text",
+        FontColor->GrayLevel[0]]}]], 
+     StyleBox[" ", "Text",
+      FontColor->GrayLevel[0]], 
+     StyleBox[
+      StyleBox[
+       StyleBox[
+        StyleBox[
+         StyleBox[
+          StyleBox[
+           StyleBox[
+            StyleBox[
+             StyleBox[
+              StyleBox[
+               StyleBox[
+                StyleBox[
+                 FormBox[
+                  RowBox[{" ", 
+                   SuperscriptBox["a", 
+                    RowBox[{"\[Phi]", "(", "n", ")"}]]}],
+                  TraditionalForm], "Text"], "Text",
+                FontSize->24,
+                FontWeight->"Bold"], "Text",
+               FontColor->GrayLevel[0]], "Text",
+              FontWeight->"Bold"], "Text",
+             FontWeight->"Bold"], "Text",
+            FontWeight->"Bold"], "Text",
+           FontWeight->"Bold"], "Text",
+          FontWeight->"Bold"], "Text",
+         FontWeight->"Bold"], "Text",
+        FontWeight->"Bold"], "Text",
+       FontColor->GrayLevel[0]], "Text",
+      FontColor->GrayLevel[0]], 
+     StyleBox[
+      StyleBox[
+       StyleBox[
+        StyleBox[
+         StyleBox[
+          StyleBox[
+           StyleBox[
+            StyleBox[
+             StyleBox[
+              StyleBox[
+               StyleBox[
+                StyleBox[
+                 StyleBox[
+                  RowBox[{" ", " "}]], "Text"], "Text",
+                FontSize->24,
+                FontWeight->"Bold"], "Text",
+               FontColor->GrayLevel[0]], "Text",
+              FontWeight->"Bold"], "Text",
+             FontWeight->"Bold"], "Text",
+            FontWeight->"Bold"], "Text",
+           FontWeight->"Bold"], "Text",
+          FontWeight->"Bold"], "Text",
+         FontWeight->"Bold"], "Text",
+        FontWeight->"Bold"], "Text",
+       FontColor->GrayLevel[0]], "Text",
+      FontColor->GrayLevel[0]], 
+     StyleBox[
+      StyleBox[
+       StyleBox[
+        StyleBox[
+         StyleBox[
+          StyleBox[
+           StyleBox[
+            StyleBox[
+             StyleBox[
+              StyleBox[
+               StyleBox[
+                StyleBox["\[CapitalXi]", "Text"], "Text",
+                FontSize->24,
+                FontWeight->"Bold"], "Text",
+               FontColor->GrayLevel[0]], "Text",
+              FontWeight->"Bold"], "Text",
+             FontWeight->"Bold"], "Text",
+            FontWeight->"Bold"], "Text",
+           FontWeight->"Bold"], "Text",
+          FontWeight->"Bold"], "Text",
+         FontWeight->"Bold"], "Text",
+        FontWeight->"Bold"], "Text",
+       FontColor->GrayLevel[0]], "Text",
+      FontColor->GrayLevel[0]], 
+     StyleBox[
+      StyleBox[
+       StyleBox[
+        StyleBox[
+         StyleBox[
+          StyleBox[
+           StyleBox[
+            StyleBox[
+             StyleBox[
+              StyleBox[
+               StyleBox[
+                StyleBox[
+                 StyleBox[
+                  RowBox[{" ", " "}]], "Text"], "Text",
+                FontSize->24,
+                FontWeight->"Bold"], "Text",
+               FontColor->GrayLevel[0]], "Text",
+              FontWeight->"Bold"], "Text",
+             FontWeight->"Bold"], "Text",
+            FontWeight->"Bold"], "Text",
+           FontWeight->"Bold"], "Text",
+          FontWeight->"Bold"], "Text",
+         FontWeight->"Bold"], "Text",
+        FontWeight->"Bold"], "Text",
+       FontColor->GrayLevel[0]], "Text",
+      FontColor->GrayLevel[0]], 
+     StyleBox[
+      StyleBox[
+       StyleBox[
+        StyleBox[
+         StyleBox[
+          StyleBox[
+           StyleBox[
+            StyleBox[
+             StyleBox[
+              StyleBox[
+               StyleBox[
+                StyleBox["1", "Text"], "Text",
+                FontSize->24,
+                FontWeight->"Bold"], "Text",
+               FontColor->GrayLevel[0]], "Text",
+              FontWeight->"Bold"], "Text",
+             FontWeight->"Bold"], "Text",
+            FontWeight->"Bold"], "Text",
+           FontWeight->"Bold"], "Text",
+          FontWeight->"Bold"], "Text",
+         FontWeight->"Bold"], "Text",
+        FontWeight->"Bold"], "Text",
+       FontColor->GrayLevel[0]], "Text",
+      FontColor->GrayLevel[0]], 
+     StyleBox[
+      StyleBox[
+       StyleBox[
+        StyleBox[
+         StyleBox[
+          StyleBox[
+           StyleBox[
+            StyleBox[
+             StyleBox[
+              StyleBox[
+               StyleBox[
+                StyleBox[
+                 StyleBox[
+                  RowBox[{" ", " "}]], "Text"], "Text",
+                FontSize->24,
+                FontWeight->"Bold"], "Text",
+               FontColor->GrayLevel[0]], "Text",
+              FontWeight->"Bold"], "Text",
+             FontWeight->"Bold"], "Text",
+            FontWeight->"Bold"], "Text",
+           FontWeight->"Bold"], "Text",
+          FontWeight->"Bold"], "Text",
+         FontWeight->"Bold"], "Text",
+        FontWeight->"Bold"], "Text",
+       FontColor->GrayLevel[0]], "Text",
+      FontColor->GrayLevel[0]], 
+     StyleBox[
+      StyleBox[
+       RowBox[{
+        StyleBox[
+         StyleBox[
+          StyleBox[
+           StyleBox[
+            StyleBox[
+             StyleBox[
+              StyleBox[
+               StyleBox[
+                StyleBox[
+                 StyleBox["(", "Text"], "Text",
+                 FontSize->24,
+                 FontColor->GrayLevel[0]], "Text",
+                FontWeight->"Bold",
+                FontColor->GrayLevel[0]], "Text",
+               FontColor->GrayLevel[0]], "Text",
+              FontWeight->"Bold"], "Text",
+             FontColor->GrayLevel[0]], "Text",
+            FontWeight->"Bold"], "Text",
+           FontColor->GrayLevel[0]], "Text",
+          FontWeight->"Bold"], "Text",
+         FontColor->GrayLevel[0]], 
+        StyleBox[
+         StyleBox[
+          StyleBox[
+           StyleBox[
+            StyleBox[
+             StyleBox[
+              RowBox[{
+               StyleBox[
+                StyleBox[
+                 StyleBox[
+                  StyleBox["mod", "Text"], "Text",
+                  FontSize->24,
+                  FontColor->GrayLevel[0]], "Text",
+                 FontWeight->"Bold",
+                 FontColor->GrayLevel[0]], "Text",
+                FontColor->GrayLevel[0]], 
+               StyleBox[" ", "Text",
+                FontColor->GrayLevel[0]], 
+               StyleBox[
+                StyleBox[
+                 StyleBox[
+                  StyleBox["m", "Text"], "Text",
+                  FontSize->24,
+                  FontColor->GrayLevel[0]], "Text",
+                 FontWeight->"Bold",
+                 FontColor->GrayLevel[0]], "Text",
+                FontColor->GrayLevel[0]]}], "Text",
+              FontWeight->"Bold"], "Text",
+             FontColor->GrayLevel[0]], "Text",
+            FontWeight->"Bold"], "Text",
+           FontColor->GrayLevel[0]], "Text",
+          FontWeight->"Bold"], "Text",
+         FontColor->GrayLevel[0]], 
+        StyleBox[
+         StyleBox[
+          StyleBox[
+           StyleBox[
+            StyleBox[
+             StyleBox[
+              StyleBox[
+               StyleBox[
+                StyleBox[
+                 StyleBox[")", "Text"], "Text",
+                 FontSize->24,
+                 FontColor->GrayLevel[0]], "Text",
+                FontWeight->"Bold",
+                FontColor->GrayLevel[0]], "Text",
+               FontColor->GrayLevel[0]], "Text",
+              FontWeight->"Bold"], "Text",
+             FontColor->GrayLevel[0]], "Text",
+            FontWeight->"Bold"], "Text",
+           FontColor->GrayLevel[0]], "Text",
+          FontWeight->"Bold"], "Text",
+         FontColor->GrayLevel[0]]}], "Text",
+       FontWeight->"Bold",
+       FontColor->GrayLevel[0]], "Text",
+      FontColor->GrayLevel[0]]}]}],
+   FontSize->16]}]}], "CodeText",
+ CellChangeTimes->{{3.7392396985844917`*^9, 3.739239715745561*^9}, {
+   3.7392711162578697`*^9, 3.739271141259359*^9}, 3.7392771414489613`*^9, {
+   3.7392844226918554`*^9, 3.739284425537668*^9}, {3.739284473743949*^9, 
+   3.739284474337345*^9}, {3.739284509213356*^9, 3.7392845557381*^9}, 
+   3.7392846048021855`*^9, 3.7392846711428895`*^9, {3.7392847463948574`*^9, 
+   3.7392847469155684`*^9}, {3.7392848196075025`*^9, 
+   3.7392848201718917`*^9}, {3.739285277461688*^9, 3.7392853099455676`*^9}},
+ TextAlignment->
+  AlignmentMarker,ExpressionUUID->"ca3d3873-2477-416a-9411-e73d5d0dbc2a"],
+
+Cell[TextData[{
+ StyleBox["\[Therefore]\t",
+  FontSize->16,
+  FontWeight->"Bold",
+  FontColor->GrayLevel[0]],
+ Cell[BoxData[
+  FormBox[
+   SuperscriptBox["E", "d"], TraditionalForm]],
+  FormatType->"TraditionalForm",
+  FontSize->16,
+  FontWeight->"Bold",
+  FontSlant->"Plain",ExpressionUUID->"bb0b9d9c-76a7-423e-bd16-1fc761658467"],
+ StyleBox[" \[CapitalXi] ",
+  FontSize->16,
+  FontWeight->"Bold",
+  FontColor->GrayLevel[0]],
+ Cell[BoxData[
+  FormBox[
+   SuperscriptBox["1", "k"], TraditionalForm]],
+  FormatType->"TraditionalForm",
+  FontSize->16,
+  FontWeight->"Bold",
+  FontSlant->"Plain",ExpressionUUID->"2a3baa4e-9c85-4f3e-98e4-ccae191b8dad"],
+ StyleBox[".M (mod n) = M",
+  FontSize->16,
+  FontWeight->"Bold",
+  FontColor->GrayLevel[0]]
+}], "CodeText",
+ CellChangeTimes->{{3.739285052003729*^9, 3.739285088222158*^9}, {
+  3.7392851374166822`*^9, 
+  3.73928514094305*^9}},ExpressionUUID->"f13d69d0-184e-4046-8751-\
+867a45d810d5"],
+
+Cell[TextData[StyleBox["Since the original message is obtained using the \
+decryption key, the algorithm is correct", "Text",
+ FontSize->16,
+ FontColor->GrayLevel[0]]], "CodeText",
+ CellChangeTimes->{{3.7392255600374413`*^9, 3.7392255798958907`*^9}, {
+  3.739225665053196*^9, 3.739225694336978*^9}, {3.739239561712773*^9, 
+  3.739239561715764*^9}, {3.7392771570569963`*^9, 3.739277157666359*^9}, {
+  3.739287543305564*^9, 
+  3.7392875689810934`*^9}},ExpressionUUID->"9c4920da-8a07-4618-b7ee-\
+cba8e50e7ca7"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Digital signatures", "Section",
+ CellChangeTimes->{
+  3.716825484342502*^9, {3.7169024799646597`*^9, 3.716902483419626*^9}, {
+   3.716902529770506*^9, 3.7169025326018753`*^9}, {3.736094413190734*^9, 
+   3.7360944203553658`*^9}, {3.73928543555861*^9, 
+   3.739285450127336*^9}},ExpressionUUID->"363992ed-65d6-4a46-9388-\
+9c42d41918e4"],
+
+Cell[TextData[StyleBox["\tDigital signing", "Subsubsection",
+ FontSize->24,
+ FontColor->GrayLevel[0]]], "Text",
+ CellChangeTimes->{{3.739273774132834*^9, 3.7392737995934887`*^9}, 
+   3.7392738554364815`*^9, {3.739285749166255*^9, 
+   3.739285755198614*^9}},ExpressionUUID->"df0c0a81-27f2-41e4-8f4f-\
+9352e011129b"],
+
+Cell[CellGroupData[{
+
+Cell["Produce a hash value of the message", "Item",
+ CellChangeTimes->{
+  3.7169025586282253`*^9, {3.735483388476576*^9, 3.735483388479723*^9}, 
+   3.739285582009873*^9, 3.7392856328188057`*^9},
+ FontSize->16,ExpressionUUID->"b5519c04-e2e4-4505-a54a-8df97103ae45"],
+
+Cell[TextData[{
+ "Use the private key (n, d) to compute the signature\[LineSeparator]",
+ StyleBox["S = ",
+  FontWeight->"Bold"],
+ Cell[BoxData[
+  FormBox[
+   SuperscriptBox["M", "d"], TraditionalForm]],
+  FormatType->"TraditionalForm",
+  FontWeight->"Bold",ExpressionUUID->"f5d3cdcd-3ecf-4920-9e76-924eee4245c6"],
+ StyleBox[" (mod n)",
+  FontWeight->"Bold"]
+}], "Item",
+ CellChangeTimes->{
+  3.7169025586282253`*^9, {3.735483389418462*^9, 3.735483395713923*^9}, 
+   3.7392854377801228`*^9, {3.7392855934313993`*^9, 3.739285602930063*^9}, {
+   3.7392856369431734`*^9, 3.739285669161649*^9}},
+ FontSize->16,ExpressionUUID->"3bc41f26-e44b-4b03-b3ba-f5d883976292"]
+}, Open  ]],
+
+Cell[BoxData[
+ StyleBox[
+  RowBox[{"S", " ", "=", " ", 
+   RowBox[{"PowerMod", "[", 
+    RowBox[{"id", ",", " ", "d", ",", " ", "n"}], "]"}]}],
+  FontSize->14]], "Input",
+ CellChangeTimes->{{3.7392756919473376`*^9, 3.739275717645549*^9}, 
+   3.7392768717152123`*^9, 3.7392769022454925`*^9, {3.7392876197357516`*^9, 
+   3.73928762236739*^9}, 3.739287669972492*^9, {3.739287745026433*^9, 
+   3.7392877468438587`*^9}, {3.7392878193680377`*^9, 3.7392878435684943`*^9}},
+ CellLabel->
+  "In[319]:=",ExpressionUUID->"31f65d9f-4a7c-47de-ae60-44e01e25abec"],
+
+Cell["Send the signature S to the recipient", "Item",
+ CellChangeTimes->{
+  3.7169025586282253`*^9, {3.735483389418462*^9, 3.735483401273685*^9}, 
+   3.7392856109384413`*^9, 3.7392876852167273`*^9},
+ FontSize->16,ExpressionUUID->"582cc902-e58a-4afb-9a4f-3af0ea087d5c"],
+
+Cell[TextData[StyleBox["\tSignature verification", "Subsubsection",
+ FontSize->24,
+ FontColor->GrayLevel[0]]], "Text",
+ CellChangeTimes->{{3.739273774132834*^9, 3.7392737995934887`*^9}, 
+   3.7392738554364815`*^9, {3.739285749166255*^9, 3.739285755198614*^9}, {
+   3.739285840317117*^9, 
+   3.7392858573889523`*^9}},ExpressionUUID->"5b28dd1d-4eae-4814-a696-\
+f6b095d63277"],
+
+Cell[TextData[{
+ StyleBox["Use the sender\[CloseCurlyQuote]s public key (n, e ) to compute \
+the hash value\[LineSeparator]", "Subsubsection",
+  FontSize->16,
+  FontColor->GrayLevel[0]],
+ StyleBox["V", "Subsubsection",
+  FontSize->16,
+  FontWeight->"Bold",
+  FontColor->GrayLevel[0]],
+ StyleBox[" = ",
+  FontSize->16,
+  FontWeight->"Bold",
+  FontColor->GrayLevel[0]],
+ Cell[BoxData[
+  FormBox[
+   SuperscriptBox["S", "e"], TraditionalForm]],
+  FormatType->"TraditionalForm",
+  FontWeight->"Bold",ExpressionUUID->"76a76581-6bf4-4635-95cd-e2bb2916355b"],
+ StyleBox[" (mod n)",
+  FontSize->16,
+  FontWeight->"Bold",
+  FontColor->GrayLevel[0]]
+}], "Item",
+ CellChangeTimes->{
+  3.7169025586282253`*^9, {3.735483388476576*^9, 3.735483388479723*^9}, 
+   3.739285582009873*^9, 3.7392856328188057`*^9, {3.739285878544488*^9, 
+   3.739285898992119*^9}, {3.7392859382887983`*^9, 3.7392859942551546`*^9}},
+ FontSize->16,ExpressionUUID->"47a6864f-9885-4e40-b789-fc9b29088ba0"],
+
+Cell[BoxData[
+ StyleBox[
+  RowBox[{"V", " ", "=", " ", 
+   RowBox[{"PowerMod", "[", 
+    RowBox[{"S", ",", " ", "e", ",", " ", "n"}], "]"}]}],
+  FontSize->14]], "Input",
+ CellChangeTimes->{{3.7392756919473376`*^9, 3.739275717645549*^9}, 
+   3.7392768717152123`*^9, 3.7392769022454925`*^9, {3.7392876197357516`*^9, 
+   3.73928762236739*^9}, 3.739287669972492*^9, {3.739287707419148*^9, 
+   3.739287718823746*^9}},
+ CellLabel->
+  "In[320]:=",ExpressionUUID->"8cdab76c-16bb-4f73-b752-461f840f8f43"],
+
+Cell[CellGroupData[{
+
+Cell["Extract the hash value from the message ", "Item",
+ CellChangeTimes->{
+  3.7169025586282253`*^9, {3.735483389418462*^9, 3.735483395713923*^9}, 
+   3.7392854377801228`*^9, {3.7392855934313993`*^9, 3.739285602930063*^9}, {
+   3.7392856369431734`*^9, 3.739285669161649*^9}, {3.739286003434992*^9, 
+   3.7392860150990686`*^9}, {3.7392881665792923`*^9, 
+   3.7392881673208256`*^9}, {3.739288198448493*^9, 3.739288198627302*^9}},
+ FontSize->16,ExpressionUUID->"5db48920-1931-4cc5-b78a-a7062c27cd64"],
+
+Cell["\<\
+If both hash values are identical, then the signature is valid\
+\>", "Item",
+ CellChangeTimes->{
+  3.7169025586282253`*^9, {3.735483389418462*^9, 3.735483401273685*^9}, 
+   3.7392856109384413`*^9, {3.7392860193374095`*^9, 3.7392860448825607`*^9}, {
+   3.73928821228924*^9, 3.7392882133469024`*^9}},
+ FontSize->16,ExpressionUUID->"c549271f-6387-4fff-bddb-c0a6c28faa09"]
+}, Open  ]],
+
+Cell[BoxData[
+ RowBox[{
+  StyleBox["TrueQ",
+   FontSize->14], 
+  StyleBox["[",
+   FontSize->14], 
+  RowBox[{
+   StyleBox["V",
+    FontSize->14], 
+   StyleBox[" ",
+    FontSize->14], 
+   StyleBox["==",
+    FontSize->14], " ", "id"}], "]"}]], "Input",
+ CellChangeTimes->{{3.7392756919473376`*^9, 3.739275717645549*^9}, 
+   3.7392768717152123`*^9, 3.7392769022454925`*^9, {3.7392876197357516`*^9, 
+   3.73928762236739*^9}, 3.739287669972492*^9, {3.739287707419148*^9, 
+   3.739287718823746*^9}, {3.73928823428821*^9, 3.739288283274416*^9}},
+ CellLabel->
+  "In[324]:=",ExpressionUUID->"3b189b03-bdd0-43da-a32d-8629d48dcb55"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Further explorations", "Section",
+ CellChangeTimes->{
+  3.716825484342502*^9, {3.7169024799646597`*^9, 3.716902483419626*^9}, {
+   3.716902529770506*^9, 3.7169025326018753`*^9}, {3.736094413190734*^9, 
+   3.7360944203553658`*^9}, {3.73928543555861*^9, 3.739285450127336*^9}, 
+   3.7392862163311796`*^9},ExpressionUUID->"f2daf98b-34b5-403e-8fbe-\
+1754e07e2272"],
+
+Cell[CellGroupData[{
+
+Cell[TextData[StyleBox["Public key cryptography", "Subsubsection",
+ FontSize->16,
+ FontColor->GrayLevel[0]]], "Item",
+ CellChangeTimes->{
+  3.7169025586282253`*^9, {3.735483388476576*^9, 3.735483388479723*^9}, 
+   3.739285582009873*^9, 3.7392856328188057`*^9, {3.739285878544488*^9, 
+   3.739285898992119*^9}, {3.7392859382887983`*^9, 3.7392859942551546`*^9}, {
+   3.7392862485980206`*^9, 3.7392862586748505`*^9}},
+ FontSize->16,ExpressionUUID->"dec97923-cb9c-4405-bd93-61e43b78b084"],
+
+Cell["Cryptographic hashing", "Item",
+ CellChangeTimes->{
+  3.7169025586282253`*^9, {3.735483389418462*^9, 3.735483395713923*^9}, 
+   3.7392854377801228`*^9, {3.7392855934313993`*^9, 3.739285602930063*^9}, {
+   3.7392856369431734`*^9, 3.739285669161649*^9}, {3.739286003434992*^9, 
+   3.7392860150990686`*^9}, {3.739286262669792*^9, 3.7392862945791583`*^9}},
+ FontSize->16,ExpressionUUID->"8512d836-811c-423f-9531-78fb70b16aa4"],
+
+Cell["Random number generation for cryptography", "Item",
+ CellChangeTimes->{
+  3.7169025586282253`*^9, {3.735483389418462*^9, 3.735483401273685*^9}, 
+   3.7392856109384413`*^9, {3.7392860193374095`*^9, 3.7392860448825607`*^9}, {
+   3.7392862989487963`*^9, 3.7392863231981683`*^9}},
+ FontSize->16,ExpressionUUID->"9525002b-ae80-40fc-baa0-f4f1d62fcf84"]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Author contact information", "Section",
+ CellChangeTimes->{{3.736868777412567*^9, 
+  3.736868791070746*^9}},ExpressionUUID->"a78f6e4f-dbdf-4763-a44f-\
+16569b36e665"],
+
+Cell["Anjali \
+Raj\[LineSeparator]29/06/18\[LineSeparator]anjaliraj.iitr@gmail.com", "Text",
+ CellChangeTimes->{{3.7392865318001966`*^9, 3.7392865559705544`*^9}, {
+  3.7392901034754157`*^9, 
+  3.739290121118621*^9}},ExpressionUUID->"1ee3725f-e9c5-45ee-999b-\
+5d63250505f1"]
+}, Open  ]]
+}, Open  ]]
+},
+WindowSize->{980, 729},
+WindowMargins->{{28, Automatic}, {Automatic, 23}},
+FrontEndVersion->"11.3 for Microsoft Windows (64-bit) (March 6, 2018)",
+StyleDefinitions->Notebook[{
+   Cell[
+    StyleData[StyleDefinitions -> "Default.nb"]], 
+   Cell[
+    StyleData["Title"], PageWidth -> WindowWidth, ShowCellBracket -> False, 
+    CellMargins -> {{0, 0}, {0, 0}}, 
+    CellBracketOptions -> {"OverlapContent" -> True}, 
+    CellElementSpacings -> {"ClosedGroupTopMargin" -> 150}, 
+    CellGroupingRules -> {"TitleGrouping", 0}, PageBreakAbove -> True, 
+    CellFrameMargins -> {{20, 50}, {6, 78}}, TextAlignment -> Left, 
+    LineSpacing -> {1, 4}, LanguageCategory -> "NaturalLanguage", 
+    CounterIncrements -> {"Title"}, 
+    CounterAssignments -> {{"Section", 0}, {"Equation", 0}, {"Figure", 0}, {
+      "Subtitle", 0}, {"Subsubtitle", 0}, {"Item", 0}, {"Subitem", 0}, {
+      "Subsubitem", 0}, {"ItemNumbered", 0}, {"SubitemNumbered", 0}, {
+      "SubsubitemNumbered", 0}}, MenuSortingValue -> 1100, MenuCommandKey -> 
+    "1", FontFamily -> "Source Sans Pro", FontSize -> 44, 
+    FontTracking -> -0.8, FontColor -> RGBColor[255, 255, 255], Background -> 
+    RGBColor[0.71375, 0.20785, 0.17255]], 
+   Cell[
+    StyleData["Abstract"], PageWidth -> WindowWidth, ShowCellBracket -> False,
+     ShowSelection -> True, CellMargins -> {{0, 0}, {0, 0}}, 
+    CellBracketOptions -> {"OverlapContent" -> True}, 
+    CellFrameMargins -> {{30, 40}, {24, 2}}, TextAlignment -> Left, 
+    FontFamily -> "Source Sans Pro", FontSize -> 16, FontSlant -> "Italic", 
+    FontColor -> RGBColor[255, 255, 255], Background -> 
+    RGBColor[0.71375, 0.20785, 0.17255]], 
+   Cell[
+    StyleData["AuthorInfo"], PageWidth -> WindowWidth, 
+    CellFrame -> {{0, 0}, {8, 0}}, ShowCellBracket -> True, ShowSelection -> 
+    True, CellMargins -> {{0, 0}, {0, 0}}, 
+    CellBracketOptions -> {"OverlapContent" -> True}, 
+    CellFrameMargins -> {{30, 40}, {10, 4}}, CellFrameColor -> 
+    RGBColor[0.988235, 0.403922, 0.0313725], TextAlignment -> Left, 
+    FontFamily -> "Source Sans Pro", FontSize -> 17, FontWeight -> "SemiBold",
+     FontSlant -> "Plain", FontColor -> RGBColor[255, 255, 255], Background -> 
+    RGBColor[0.71375, 0.20785, 0.17255]], 
+   Cell[
+    CellGroupData[{
+      Cell[
+       StyleData["Chapter"], ShowCellBracket -> False, 
+       CellMargins -> {{20, 30}, {10, 45}}, 
+       StyleKeyMapping -> {
+        "Tab" -> "Subchapter", "Backspace" -> 
+         "Title", $CellContext`KeyEvent[
+          "Tab", $CellContext`Modifiers -> {$CellContext`Shift}] -> "Title"}, 
+       CellGroupingRules -> {"SectionGrouping", 10}, PageBreakBelow -> False, 
+       LineSpacing -> {1, 4}, LanguageCategory -> "NaturalLanguage", 
+       CounterIncrements -> "Chapter", 
+       CounterAssignments -> {{"Subchapter", 0}, {"Section", 0}, {
+         "Equation", 0}, {"Figure", 0}, {"Subsubtitle", 0}, {"Item", 0}, {
+         "Subitem", 0}, {"Subsubitem", 0}, {"ItemNumbered", 0}, {
+         "SubitemNumbered", 0}, {"SubsubitemNumbered", 0}}, MenuSortingValue -> 
+       1150, MenuCommandKey -> "2", FontFamily -> "Source Sans Pro", FontSize -> 
+       34, FontTracking -> -0.5, FontColor -> 
+       RGBColor[
+        0.21176470588235294`, 0.21176470588235294`, 0.21176470588235294`]], 
+      Cell[
+       StyleData["Chapter", "Presentation"], 
+       CellMargins -> {{67, Inherited}, {10, 15}}, LineSpacing -> {1, 16}, 
+       FontSize -> 48], 
+      Cell[
+       StyleData["Chapter", "SlideShow"], 
+       CellMargins -> {{
+         0.135 FrontEnd`AbsoluteCurrentValue[{WindowSize, 1}], 0.04 
+          FrontEnd`AbsoluteCurrentValue[{WindowSize, 1}]}, {10, 15}}, 
+       LineSpacing -> {1, 2}, FontSize -> 48], 
+      Cell[
+       StyleData["Chapter", "Condensed"], CellMargins -> {{18, 10}, {5, 7}}, 
+       FontSize -> 14], 
+      Cell[
+       StyleData["Chapter", "Printout"], 
+       CellMargins -> {{10, Inherited}, {10, 15}}], 
+      Cell[
+       StyleData["Chapter", "PrintoutGray"], 
+       CellMargins -> {{10, Inherited}, {10, 15}}]}, Open]], 
+   Cell[
+    CellGroupData[{
+      Cell[
+       StyleData["Section"], CellFrame -> False, ShowCellBracket -> True, 
+       CellMargins -> {{20, 30}, {10, 25}}, Evaluatable -> False, 
+       CellGroupingRules -> {"SectionGrouping", 40}, PageBreakBelow -> False, 
+       CellChangeTimes -> {3.716825484342502*^9}, Hyphenation -> False, 
+       CounterIncrements -> "Section", 
+       CounterAssignments -> {{"Subsection", 0}, {"Subsubsection", 0}, {
+         "ItemNumbered", 0}}, AspectRatioFixed -> True, FontFamily -> 
+       "Source Sans Pro", FontSize -> 28, FontTracking -> -0.5, FontColor -> 
+       RGBColor[0.71375, 0.20785, 0.17255]], 
+      Cell[
+       StyleData["Section", "Presentation", StyleDefinitions -> None]], 
+      Cell[
+       StyleData["Section", "SlideShow", StyleDefinitions -> None]], 
+      Cell[
+       StyleData["Section", "Printout", StyleDefinitions -> None]]}, Open]], 
+   Cell[
+    CellGroupData[{
+      Cell[
+       StyleData["Subsection"], ShowCellBracket -> False, 
+       CellMargins -> {{20, 30}, {6, 12}}, 
+       CellGroupingRules -> {"SectionGrouping", 50}, PageBreakBelow -> False, 
+       Hyphenation -> False, LineSpacing -> {1, 1}, CounterIncrements -> 
+       "Subsection", 
+       CounterAssignments -> {{"Subsubsection", 0}, {"ItemNumbered", 0}}, 
+       FontFamily -> "Source Sans Pro", FontSize -> 23, FontTracking -> -0.5, 
+       FontColor -> RGBColor[0.71375, 0.20785, 0.17255]], 
+      Cell[
+       StyleData["Subsection", "Presentation", StyleDefinitions -> None]], 
+      Cell[
+       StyleData["Subsection", "SlideShow", StyleDefinitions -> None]], 
+      Cell[
+       StyleData["Subsection", "Printout", StyleDefinitions -> None]]}, 
+     Closed]], 
+   Cell[
+    CellGroupData[{
+      Cell[
+       StyleData["Subsubsection"], ShowCellBracket -> False, 
+       CellMargins -> {{21, 21}, {2, 8}}, 
+       CellGroupingRules -> {"SectionGrouping", 60}, PageBreakBelow -> False, 
+       Hyphenation -> False, LineSpacing -> {1, 1}, CounterIncrements -> 
+       "Subsubsection", CounterAssignments -> {{"ItemNumbered", 0}}, 
+       FontFamily -> "Source Sans Pro", FontSize -> 18, FontTracking -> -0.5, 
+       FontColor -> RGBColor[0.9254901960784314, 0.49019607843137253`, 0.2]], 
+      Cell[
+       StyleData["Subsubsection", "Presentation", StyleDefinitions -> None]], 
+      Cell[
+       StyleData["Subsubsection", "SlideShow", StyleDefinitions -> None]], 
+      Cell[
+       StyleData["Subsubsection", "Printout", StyleDefinitions -> None]]}, 
+     Closed]], 
+   Cell[
+    StyleData["FurtherExplorationSection"], CellFrame -> {{0, 0}, {0, 0.5}}, 
+    ShowCellBracket -> False, CellMargins -> {{20, 30}, {4, 24}}, 
+    CellGroupingRules -> {"SectionGrouping", 30}, 
+    CellFrameMargins -> {{0, 0}, {0, 22}}, CellFrameColor -> GrayLevel[0.8], 
+    DefaultNewCellStyle -> "FurtherExploration", FontFamily -> 
+    "Source Sans Pro", FontSize -> 18, 
+    FontVariations -> {"CapsType" -> "AllCaps"}, FontColor -> 
+    RGBColor[0.2784313725490196, 0.2784313725490196, 0.2784313725490196]], 
+   Cell[
+    StyleData["FurtherExploration", StyleDefinitions -> StyleData["Text"]], 
+    ShowCellBracket -> False, CellMargins -> {{20, 10}, {2, 4}}, 
+    ReturnCreatesNewCell -> True, FontFamily -> "Source Sans Pro", FontSize -> 
+    16, FontColor -> RGBColor[0.71375, 0.20785, 0.17255]], 
+   Cell[
+    StyleData["AuthorshipSection"], ShowCellBracket -> False, 
+    CellMargins -> {{20, Inherited}, {4, 22}}, 
+    CellGroupingRules -> {"SectionGrouping", 30}, DefaultNewCellStyle -> 
+    "FurtherExploration", FontFamily -> "Source Sans Pro", FontSize -> 18, 
+    FontVariations -> {"CapsType" -> "AllCaps"}, FontColor -> 
+    RGBColor[0.2784313725490196, 0.2784313725490196, 0.2784313725490196]], 
+   Cell[
+    StyleData["Authorship", StyleDefinitions -> StyleData["Text"]], 
+    ShowCellBracket -> False, CellMargins -> {{20, 10}, {2, 4}}, 
+    ReturnCreatesNewCell -> True, FontFamily -> "Source Sans Pro", FontSize -> 
+    16, FontColor -> 
+    RGBColor[0.4392156862745098, 0.4392156862745098, 0.4392156862745098]], 
+   Cell[
+    CellGroupData[{
+      Cell["Styles for Body Text", "Section"], 
+      Cell[
+       CellGroupData[{
+         Cell[
+          StyleData["Text"], ShowCellBracket -> True, 
+          CellMargins -> {{20, 10}, {6, 8}}, ReturnCreatesNewCell -> True, 
+          DefaultNewCellStyle -> "Direction", FontSize -> 
+          15, $CellContext`DefaultReturnCreatedCellStyle -> "Direction"], 
+         Cell[
+          StyleData["Text", "Presentation", StyleDefinitions -> None]], 
+         Cell[
+          StyleData["Text", "SlideShow", StyleDefinitions -> None]], 
+         Cell[
+          StyleData["Text", "Printout", StyleDefinitions -> None], 
+          TextJustification -> 1.]}, Open]], 
+      Cell[
+       StyleData["CodeText", StyleDefinitions -> StyleData["Text"]], 
+       CellMargins -> {{23, 10}, {3, 8}}, CellFrameLabelMargins -> 4, 
+       MenuSortingValue -> 10000, MenuCommandKey -> "8", FontSize -> 15, 
+       FontWeight -> "Plain", FontColor -> 
+       GrayLevel[0.45], $CellContext`DefaultReturnCreatedCellStyle -> 
+       "Input"]}, Open]], 
+   Cell[
+    CellGroupData[{
+      Cell[
+      "Styles for Input, Output and Graphics", "Section", 
+       CellChangeTimes -> {3.7168930720372066`*^9}], 
+      Cell[
+       StyleData["Input"], CellMargins -> {{82, 10}, {5, 6}}, 
+       StyleKeyMapping -> {"=" -> "WolframAlphaShort", "*" -> "Item"}, 
+       AutoNumberFormatting -> False, FontSize -> 13], 
+      Cell[
+       CellGroupData[{
+         Cell[
+          StyleData["InputOnly"], CellMargins -> {{82, 10}, {7, 7}}, FontSize -> 
+          13], 
+         Cell[
+          StyleData["InputOnly", "Presentation"], 
+          CellMargins -> {{100, 10}, {8, 15}}], 
+         Cell[
+          StyleData["InputOnly", "SlideShow"], 
+          CellMargins -> {{100, 10}, {8, 15}}], 
+         Cell[
+          StyleData["InputOnly", "Condensed"], 
+          CellMargins -> {{50, 10}, {2, 3}}], 
+         Cell[
+          StyleData["InputOnly", "Printout"], 
+          CellMargins -> {{49, Inherited}, {Inherited, Inherited}}, 
+          LinebreakAdjustments -> {0.85, 2, 10, 1, 1}], 
+         Cell[
+          StyleData["InputOnly", "PrintoutGray"], 
+          CellMargins -> {{49, Inherited}, {Inherited, Inherited}}, 
+          LinebreakAdjustments -> {0.85, 2, 10, 1, 1}]}, Closed]], 
+      Cell[
+       CellGroupData[{
+         Cell[
+          StyleData["Code"]], 
+         Cell[
+          StyleData["Code", "Presentation"], 
+          CellMargins -> {{100, 10}, {8, 15}}], 
+         Cell[
+          StyleData["Code", "SlideShow"], 
+          CellMargins -> {{
+            0.135 FrontEnd`AbsoluteCurrentValue[{WindowSize, 1}], 0.01 
+             FrontEnd`AbsoluteCurrentValue[{WindowSize, 1}]}, {8, 15}}, 
+          LinebreakAdjustments -> {1, 2., 12., 1., 1.}, FontSize -> 20], 
+         Cell[
+          StyleData["Code", "Condensed"], CellMargins -> {{50, 10}, {2, 3}}], 
+         Cell[
+          StyleData["Code", "Printout"], 
+          CellMargins -> {{49, Inherited}, {Inherited, Inherited}}], 
+         Cell[
+          StyleData["Code", "PrintoutGray"], 
+          CellMargins -> {{49, Inherited}, {Inherited, Inherited}}]}, 
+        Closed]], 
+      Cell[
+       CellGroupData[{
+         Cell[
+          StyleData["Output"], CellMargins -> {{82, 10}, {10, 5}}, FontSize -> 
+          13], 
+         Cell[
+          StyleData["Output", "Presentation"], 
+          CellMargins -> {{100, 10}, {15, 8}}], 
+         Cell[
+          StyleData["Output", "SlideShow"], 
+          CellMargins -> {{
+            0.135 FrontEnd`AbsoluteCurrentValue[{WindowSize, 1}], 0.01 
+             FrontEnd`AbsoluteCurrentValue[{WindowSize, 1}]}, {15, 8}}, 
+          LinebreakAdjustments -> {1, 2., 12., 1., 1.}, FontSize -> 20], 
+         Cell[
+          StyleData["Output", "Condensed"], 
+          CellMargins -> {{50, Inherited}, {3, 2}}], 
+         Cell[
+          StyleData["Output", "Printout"], 
+          CellMargins -> {{49, Inherited}, {9, 3}}], 
+         Cell[
+          StyleData["Output", "PrintoutGray"], 
+          CellMargins -> {{49, Inherited}, {9, 3}}]}, Closed]], 
+      Cell[
+       CellGroupData[{
+         Cell[
+          StyleData["PlacedGraphics"], CellFrame -> False, ShowCellBracket -> 
+          False, CellMargins -> {{82, 21}, {8, 10}}, CellGroupingRules -> 
+          "GraphicsGrouping", CellHorizontalScrolling -> True, ShowCellLabel -> 
+          False, TextAlignment -> Left, LineSpacing -> {1, 1}, 
+          InsetBoxOptions -> {
+           BaseStyle -> {CellFrame -> None, Background -> None}}], 
+         Cell[
+          StyleData[
+          "PlacedGraphics", "Presentation", StyleDefinitions -> None]], 
+         Cell[
+          StyleData["PlacedGraphics", "SlideShow", StyleDefinitions -> None]], 
+         Cell[
+          StyleData["PlacedGraphics", "Printout", StyleDefinitions -> None]]},
+         Closed]], 
+      Cell[
+       StyleData["CellLabel"], LineSpacing -> {1, 1}, AutoNumberFormatting -> 
+       False, FontSize -> 9, FontSlant -> "Oblique"]}, Open]]}, Visible -> 
+  False, FrontEndVersion -> 
+  "11.3 for Microsoft Windows (64-bit) (March 6, 2018)", StyleDefinitions -> 
+  "PrivateStylesheetFormatting.nb"]
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[CellGroupData[{
+Cell[580, 22, 258, 4, 139, "Title",ExpressionUUID->"755e0098-9782-4df5-8299-7f54266c54d6"],
+Cell[841, 28, 503, 7, 46, "Abstract",ExpressionUUID->"db4efd27-b72d-4835-a486-b18956bba0cb"],
+Cell[1347, 37, 625, 9, 44, "AuthorInfo",ExpressionUUID->"59a63784-4e95-46b9-9a1d-2c013f47161b"],
+Cell[1975, 48, 71, 0, 33, "Text",ExpressionUUID->"85271f44-5b04-421c-bf31-0395fab10c35"],
+Cell[2049, 50, 1752, 25, 126, "Text",ExpressionUUID->"c4fcdb31-5320-4f66-a18c-701e8067fe16"],
+Cell[CellGroupData[{
+Cell[3826, 79, 519, 9, 71, "Section",ExpressionUUID->"69c2789e-757d-42de-8e7a-aa67a7c35b9d"],
+Cell[4348, 90, 2003, 46, 77, "CodeText",ExpressionUUID->"66e96941-cbfd-4190-a916-60ed078a9d41"],
+Cell[6354, 138, 71, 0, 33, "Text",ExpressionUUID->"edec28ab-c9d9-40c8-b998-23846a080dda"],
+Cell[6428, 140, 546, 13, 45, "Text",ExpressionUUID->"ad918a5c-f248-4137-a750-f1076ed9c199"],
+Cell[6977, 155, 589, 10, 31, "CodeText",ExpressionUUID->"7a9ac988-03a4-4c18-9dca-ea7cdc6e168b"],
+Cell[7569, 167, 531, 15, 28, "Input",ExpressionUUID->"ecad34cb-567a-4d50-b342-e8359aef898c"],
+Cell[8103, 184, 314, 8, 28, "Input",ExpressionUUID->"a1e4afc3-045a-42d8-a607-7539976ee1bd"],
+Cell[8420, 194, 775, 19, 54, "CodeText",ExpressionUUID->"b04d2ecd-425d-4379-82ff-8cc9d961b49b"],
+Cell[9198, 215, 546, 10, 31, "CodeText",ExpressionUUID->"0d5acc4f-42ea-4cdf-ad38-c424bc878347"],
+Cell[9747, 227, 686, 11, 31, "CodeText",ExpressionUUID->"fb1c667d-5204-4df9-9936-abc834f29a28"],
+Cell[10436, 240, 472, 13, 28, "Input",ExpressionUUID->"eb8689ce-0a9e-45b1-b238-10a020118494"],
+Cell[10911, 255, 356, 7, 31, "CodeText",ExpressionUUID->"db325f37-1b38-4829-804d-78eafbcaa9cd"],
+Cell[11270, 264, 943, 27, 73, "Input",ExpressionUUID->"e2d89190-4fb5-4f14-b7db-a96bbf49e8ca"],
+Cell[12216, 293, 403, 7, 31, "CodeText",ExpressionUUID->"72347966-0e48-4b03-b798-d69ca0cdb54f"],
+Cell[12622, 302, 71, 0, 33, "Text",ExpressionUUID->"32d55865-4aba-4197-8f33-2dd45306f5f6"],
+Cell[12696, 304, 447, 12, 45, "Text",ExpressionUUID->"a8299778-2b40-4179-9f8d-2e20537b382e"],
+Cell[13146, 318, 815, 21, 77, "CodeText",ExpressionUUID->"a730e039-1310-4960-b5cd-4be0a111ddc0"],
+Cell[13964, 341, 637, 11, 31, "CodeText",ExpressionUUID->"bb85dd23-8f51-4a1b-b0fd-c455411b5028"],
+Cell[14604, 354, 521, 12, 28, "Input",ExpressionUUID->"8d1af351-071b-4d61-81b7-ee7bd11ab4d2"],
+Cell[15128, 368, 296, 6, 34, "Text",ExpressionUUID->"2aa69d96-b50b-4062-9d71-f1eb6143c707"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[15461, 379, 285, 8, 71, "Section",ExpressionUUID->"b5a3caa7-ff58-440c-9749-a3d7b0e03f43"],
+Cell[15749, 389, 379, 7, 34, "Text",ExpressionUUID->"525802fc-82c5-4218-9930-a19ccd9ba704"],
+Cell[16131, 398, 479, 10, 28, "Input",ExpressionUUID->"2e467152-035b-424e-a381-890192dcb650"],
+Cell[16613, 410, 356, 6, 34, "Text",ExpressionUUID->"73b45b26-2416-48d3-84ef-04d0abfbcb83"],
+Cell[16972, 418, 514, 11, 28, "Input",ExpressionUUID->"266049e5-c84f-4bad-b4a4-5ed4d4144287"],
+Cell[17489, 431, 745, 18, 57, "Text",ExpressionUUID->"691420bd-6f3b-4c90-8634-f2c541ac76dd"],
+Cell[18237, 451, 696, 17, 28, "Input",ExpressionUUID->"e500a892-ece9-412e-ba0e-e8633bb0e956"],
+Cell[18936, 470, 565, 12, 28, "Input",ExpressionUUID->"21bcb6ed-f342-498c-ac89-ba0e7b864bc9"],
+Cell[19504, 484, 464, 7, 34, "Text",ExpressionUUID->"94c662e9-6061-42c5-991f-89040141599d"],
+Cell[19971, 493, 607, 13, 28, "Input",ExpressionUUID->"f720b1c1-1a72-4a1a-ab3d-6adcf965b29c"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[20615, 511, 515, 9, 71, "Section",ExpressionUUID->"36fd93b8-b976-48f1-bd76-d256196758c9"],
+Cell[21133, 522, 360, 6, 34, "Text",ExpressionUUID->"3bb3e481-1f1a-4353-a7dd-8cc87843d9b3"],
+Cell[21496, 530, 243, 6, 28, "Input",ExpressionUUID->"69d85133-65ce-42d7-9dd5-ed711a8a1208"],
+Cell[21742, 538, 373, 6, 31, "CodeText",ExpressionUUID->"f062931a-e01c-45e7-8a42-a8f1a619be48"],
+Cell[22118, 546, 350, 9, 28, "Input",ExpressionUUID->"5a84c778-f143-4e7d-8559-5398f3963ac4"],
+Cell[22471, 557, 676, 16, 34, "Text",ExpressionUUID->"030776b6-2e41-4945-83c1-949a43716576"],
+Cell[23150, 575, 440, 13, 28, "Input",ExpressionUUID->"3600db75-b18b-43d2-ba08-3493af805d27"],
+Cell[23593, 590, 366, 10, 28, "Input",ExpressionUUID->"c4c0517e-bffd-48ee-bc79-9a0b825c33bf"],
+Cell[23962, 602, 316, 6, 34, "Text",ExpressionUUID->"babf1c64-3bb4-42ed-b545-e549260acb40"],
+Cell[24281, 610, 302, 7, 28, "Input",ExpressionUUID->"78be44c5-3ef7-41a1-b63a-6bfcc418a2fc"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[24620, 622, 232, 4, 71, "Section",ExpressionUUID->"ed65a640-9e23-4cfb-97e5-2b2050c4800b"],
+Cell[24855, 628, 1738, 41, 80, "Text",ExpressionUUID->"376671b6-9dc9-4a11-b41c-e0ebf810b9a1"],
+Cell[26596, 671, 1243, 33, 50, "CodeText",ExpressionUUID->"69503298-1e5f-49ad-93e8-ccf3c13989b5"],
+Cell[27842, 706, 14305, 455, 53, "CodeText",ExpressionUUID->"ca3d3873-2477-416a-9411-e73d5d0dbc2a"],
+Cell[42150, 1163, 934, 31, 31, "CodeText",ExpressionUUID->"f13d69d0-184e-4046-8751-867a45d810d5"],
+Cell[43087, 1196, 507, 9, 31, "CodeText",ExpressionUUID->"9c4920da-8a07-4618-b7ee-cba8e50e7ca7"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[43631, 1210, 340, 6, 71, "Section",ExpressionUUID->"363992ed-65d6-4a46-9388-9c42d41918e4"],
+Cell[43974, 1218, 314, 6, 45, "Text",ExpressionUUID->"df0c0a81-27f2-41e4-8f4f-9352e011129b"],
+Cell[CellGroupData[{
+Cell[44313, 1228, 264, 4, 32, "Item",ExpressionUUID->"b5519c04-e2e4-4505-a54a-8df97103ae45"],
+Cell[44580, 1234, 660, 16, 53, "Item",ExpressionUUID->"3bc41f26-e44b-4b03-b3ba-f5d883976292"]
+}, Open  ]],
+Cell[45255, 1253, 548, 11, 28, "Input",ExpressionUUID->"31f65d9f-4a7c-47de-ae60-44e01e25abec"],
+Cell[45806, 1266, 268, 4, 32, "Item",ExpressionUUID->"582cc902-e58a-4afb-9a4f-3af0ea087d5c"],
+Cell[46077, 1272, 373, 7, 45, "Text",ExpressionUUID->"5b28dd1d-4eae-4814-a696-f6b095d63277"],
+Cell[46453, 1281, 964, 27, 53, "Item",ExpressionUUID->"47a6864f-9885-4e40-b789-fc9b29088ba0"],
+Cell[47420, 1310, 495, 11, 28, "Input",ExpressionUUID->"8cdab76c-16bb-4f73-b752-461f840f8f43"],
+Cell[CellGroupData[{
+Cell[47940, 1325, 499, 7, 32, "Item",ExpressionUUID->"5db48920-1931-4cc5-b78a-a7062c27cd64"],
+Cell[48442, 1334, 378, 7, 32, "Item",ExpressionUUID->"c549271f-6387-4fff-bddb-c0a6c28faa09"]
+}, Open  ]],
+Cell[48835, 1344, 620, 18, 26, "Input",ExpressionUUID->"3b189b03-bdd0-43da-a32d-8629d48dcb55"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[49492, 1367, 366, 6, 71, "Section",ExpressionUUID->"f2daf98b-34b5-403e-8fbe-1754e07e2272"],
+Cell[CellGroupData[{
+Cell[49883, 1377, 484, 8, 32, "Item",ExpressionUUID->"dec97923-cb9c-4405-bd93-61e43b78b084"],
+Cell[50370, 1387, 428, 6, 32, "Item",ExpressionUUID->"8512d836-811c-423f-9531-78fb70b16aa4"],
+Cell[50801, 1395, 352, 5, 32, "Item",ExpressionUUID->"9525002b-ae80-40fc-baa0-f4f1d62fcf84"]
+}, Open  ]]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[51202, 1406, 171, 3, 71, "Section",ExpressionUUID->"a78f6e4f-dbdf-4763-a44f-16569b36e665"],
+Cell[51376, 1411, 273, 5, 77, "Text",ExpressionUUID->"1ee3725f-e9c5-45ee-999b-5d63250505f1"]
+}, Open  ]]
+}, Open  ]]
+}
+]
+*)
+
